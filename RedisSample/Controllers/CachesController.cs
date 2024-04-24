@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RedisSample.Dtos;
 using RedisSample.Infra;
 using StackExchange.Redis;
+using System.Collections.Generic;
 
 namespace RedisSample.Controllers
 {
@@ -40,7 +41,23 @@ namespace RedisSample.Controllers
     [HttpGet("cache")]
     public async Task<IActionResult> GetCache()
     {
-      return Ok(cacheService.Get<Product>("Products"));
+      return Ok(cacheService.Get<Product>("products"));
+    }
+
+    [HttpPost("setSession")]
+    public async Task<IActionResult> SetSession()
+    {
+      var session = new HashEntry[]
+      {
+        new HashEntry("UserName","Ali"),
+        new HashEntry("Email","test@test.com"),
+      };
+
+      cacheService.SetHash("user-1",session);
+
+      string name = cacheService.GetHash("user-1", "UserName").ToString();
+
+      return Ok();
     }
 
    

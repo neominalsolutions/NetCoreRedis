@@ -26,6 +26,7 @@ namespace RedisSample.Infra
       _database.KeyDelete(key);
     }
 
+
     public TObject Get<TObject>(string key)
     {
 
@@ -36,6 +37,11 @@ namespace RedisSample.Infra
         return JsonSerializer.Deserialize<TObject>(serializedObject);
       }
         return default; 
+    }
+
+    public RedisValue GetHash(string hashKey, string keyName)
+    {
+      return _database.HashGet(hashKey, keyName);
     }
 
     public async Task PublishAsync<TObject>(string channelName, TObject data)
@@ -52,6 +58,11 @@ namespace RedisSample.Infra
         _database.StringSet(key, serializedJson, expireTime);
       }
 
+    }
+
+    public void SetHash(string hashKey, HashEntry[] entry)
+    {
+      _database.HashSet(hashKey,entry);
     }
   }
 }

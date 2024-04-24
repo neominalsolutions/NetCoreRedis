@@ -28,7 +28,7 @@ namespace RedisSample.Controllers
       message.Price = random.Next(0,100);
       message.Stock = random.Next(0,500);
 
-      await this.cache.PublishAsync<Product>("Products", message);
+      await this.cache.PublishAsync<Product>("products", message);
 
       return Ok();
 
